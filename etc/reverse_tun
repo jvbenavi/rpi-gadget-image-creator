@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# reverse_tun.sh
+#Creates reverse tunnel through <domain.io> when online
+
+#Host <tbd>
+# Proxycommand ssh <domain.io> exec nc localhost <PORT>
+
+PORT=123456          # <PORT>
+REMOTE_PORT=123457
+USER=user            # <user>
+REMOTE_USER=user     # <user>
+KEY=/home/user/.ssh/id_rsa
+HOST=domain.io       # <domain.io>
+export AUTOSSH_GATETIME=0
+export AUTOSSH_PORT=27533
+
+#ssh options:
+#-f: fork to background
+#-N: don't allocate a terminal
+#-N: tells ssh not to execute a remote command (primarily for port forwarding/tunneling)
+#-q: quiet
+#-i: path to key file
+#-R: reverse tunnel remoteport:host:localport
+#-S: control socket location, or none
+
+#-2: force protocal 2
+#-n prevents reading from stdin, used for background processes
+#-T disable pseudo-TTY allocation; may not be necessary but doesn't hurt
+
+su -c "autossh -p ${REMOTE_PORT} -f -N -q -i ${KEY} -R ${PORT}:localhost:22 -S none ${REMOTE_USER}@${HOST} -oLogLevel=error -oControlMaster=no -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no" $USER
+
