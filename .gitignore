@@ -1,3 +1,3 @@
 *.img
-reverse_tun
-wpa_supplicant.conf
+*reverse_tun
+*wpa_supplicant.conf
