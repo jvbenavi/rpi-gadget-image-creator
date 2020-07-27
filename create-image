@@ -24,7 +24,7 @@ puts $imagePath\n
 if {$drver eq "Windows"} {
   puts "gadget for Windows host"
 } else {
-  puts "gadget for Linux host"
+  puts "gadget for Linux/Mac host"
 }
 
 spawn docker run -i --rm -v $imagePath:/sdcard/filesystem.img lukechilds/dockerpi:vm
@@ -37,12 +37,17 @@ send "raspberry\n"
 expect "$ "
 send "sudo apt-get update\n"
 expect "$ "
-send "sudo apt-get -y install dnsmasq\n"
+send "sudo apt-get -y install dnsmasq git autossh\n"
 expect "$ "
 send "sudo apt-get clean\n"
 
 expect "$ "
 send "sudo su -\n"
+
+expect "# "
+send "cd /usr/local/\n"
+expect "# "
+send "git clone https://github.com/jvbenavi/lowendscript.git\n"
 
 set file [slurp "etc/dnsmasq.d/usb0"]
 expect "# "
@@ -95,6 +100,22 @@ if {$drver eq "Windows"} {
 
 expect "# "
 send "echo denyinterfaces usb0 >> /etc/dhcpcd.conf\n"
+
+set file [slurp "etc/network/if-up.d/reverse_tun"]
+expect "# "
+send "cat <<EOF >> /etc/network/if-up.d/reverse_tun\n" 
+send "$file\n"
+send "EOF\n"
+expect "# "
+send "chmod +x /etc/network/if-up.d/reverse_tun\n"
+
+set file [slurp "etc/wpa_supplicant/wpa_supplicant.conf"]
+expect "# "
+send "cat <<EOF >> /etc/wpa_supplicant/wpa_supplicant.conf\n" 
+send "$file\n"
+send "EOF\n"
+expect "# "
+send "chmod +x /etc/wpa_supplicant/wpa_supplicant.conf\n"
 
 expect "# "
 send "poweroff\n"
