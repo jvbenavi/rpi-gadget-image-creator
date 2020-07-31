@@ -33,3 +33,15 @@ You can find instructions on the Raspberry Pi website [here](https://www.raspber
 ## TODO
 
 Look at repackaging everything into an extention to DockerPi so the whole thing runs in the container.
+
+## notes 
+
+```
+sudo iwlist wlan0 scan | grep jvb
+ifconfig wlan0
+wpa_cli -i wlan0 reconfigure
+```
+
+double lines at top of wpa_config?
+
+
