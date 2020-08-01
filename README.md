@@ -51,6 +51,9 @@ Look at repackaging everything into an extention to DockerPi so the whole thing 
 sudo iwlist wlan0 scan | grep name
 ifconfig wlan0
 wpa_cli -i wlan0 reconfigure
+
+ifdown usb0 
+ifup usb0
 ```
 
 Apps:
@@ -63,18 +66,51 @@ Apps:
 3. public HotSpot, home AP 
 
 LICENSE  README.md  create-image  create-image.sh  etc  lib  usr
-	usr/local/lowendscript
 
-etc/network/if-up.d/reverse_tun
-
+install dnsmasq
 etc/dnsmasq.d/usb0
+	interface=usb0
+	dhcp-range=10.55.0.2,10.55.0.6,255.255.255.248,1h
+	dhcp-option=3
+	leasefile-ro
 send "echo denyinterfaces usb0 >> /etc/dhcpcd.conf\n"
 
 etc/network/interfaces.d/usb0
+    auto usb0
+    allow-hotplug usb0
+    iface usb0 inet static
+      address 10.55.0.1
+      netmask 255.255.255.248
+adafruit Static
+    allow-hotplug usb0
+    iface usb0 inet static
+      address 192.168.7.2
+      netmask 255.255.255.0
+      network 192.168.7.0
+      broadcast 192.168.7.255
+      gateway 192.168.7.1
+adafruit internet 
+	auto lo 
+	iface lo inet loopback
+	iface eth0 inet manual
+
+	allow-hotplug wlan0
+	iface wlan0 inet manual
+	    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+	allow-hotplug wlan1
+	iface wlan1 inet manual
+	    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+	auto usb0
+	allow-hotplug usb0
+	iface usb0 inet manual
 
 etc/wpa_supplicant/wpa_supplicant.conf
-usr/local/sbin/argon1.sh
 
+etc/network/if-up.d/reverse_tun
+
+usr/local/sbin/argon1.sh
+usr/local/lowendscript
 usr/local/sbin/usb-gadget.sh
 lib/systemd/system/usbgadget.service
 
