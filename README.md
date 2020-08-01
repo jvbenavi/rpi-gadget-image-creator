@@ -29,6 +29,7 @@ Copy the raspbian lite image into the `rpi-gadget-image-creator`  directory.
 ```
 
 or (jvb): 
+
 ```
 ./create-image.sh 
 ```
@@ -41,6 +42,7 @@ You can find instructions on the Raspberry Pi website [here](https://www.raspber
 Look at repackaging everything into an extention to DockerPi so the whole thing runs in the container.
 
 (jvb) wpa_config convert to hash, check into CFGDIR
+
 (jvb) add ssh key for rev_tun 
 
 ## notes, usefull commands 
@@ -52,11 +54,29 @@ wpa_cli -i wlan0 reconfigure
 ```
 
 Apps:
-1. default mode:
-  1.a eth usb gadget with (win shared) internet (dhcp client, Bonjur deskovery) 
-  1.b wifi internet (home/mble)
-  1.c internet-up, rev_tun access 
-2. wifi internet, usb-eth/usb-wlan2 lan (dhcp server) 
-3. public HotSpot
+
+1. default mode:  
+  1.a eth usb gadget with (win shared) internet (dhcp client, Bonjur deskovery)  
+  1.b wifi internet (home/mble)  
+  1.c internet-up, rev_tun access   
+2. wifi internet, usb-eth/usb-wlan2 lan (dhcp server)   
+3. public HotSpot, home AP 
+
+LICENSE  README.md  create-image  create-image.sh  etc  lib  usr
+	usr/local/lowendscript
+
+etc/network/if-up.d/reverse_tun
+
+etc/dnsmasq.d/usb0
+send "echo denyinterfaces usb0 >> /etc/dhcpcd.conf\n"
+
+etc/network/interfaces.d/usb0
+
+etc/wpa_supplicant/wpa_supplicant.conf
+usr/local/sbin/argon1.sh
+
+usr/local/sbin/usb-gadget.sh
+lib/systemd/system/usbgadget.service
+
 
 
