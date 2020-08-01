@@ -45,9 +45,7 @@ expect "$ "
 send "sudo su -\n"
 
 expect "# "
-send "cd /usr/local/\n"
-expect "# "
-send "git clone https://github.com/jvbenavi/lowendscript.git\n"
+send "git clone https://github.com/jvbenavi/lowendscript.git /usr/local/lowendscript\n"
 
 set file [slurp "etc/dnsmasq.d/usb0"]
 expect "# "

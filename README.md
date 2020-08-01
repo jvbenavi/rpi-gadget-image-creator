@@ -5,6 +5,7 @@ This should work with Raspberry Pi Zero, Zero W and 4.
 
 Currently only tested on Linux, but should run on OSx 
 
+(jvb) modified for personel use 
 
 ## Requirements
 
@@ -27,6 +28,11 @@ Copy the raspbian lite image into the `rpi-gadget-image-creator`  directory.
 ./create-image 2019-09-26-raspbian-buster-lite.img
 ```
 
+or (jvb): 
+```
+./create-image.sh 
+```
+
 Once complete you can write the image file to a SD Card with any of the usual tools e.g. `dd` or `balena-etch`.
 You can find instructions on the Raspberry Pi website [here](https://www.raspberrypi.org/documentation/installation/installing-images/README.md)
 
@@ -34,14 +40,23 @@ You can find instructions on the Raspberry Pi website [here](https://www.raspber
 
 Look at repackaging everything into an extention to DockerPi so the whole thing runs in the container.
 
-## notes 
+(jvb) wpa_config convert to hash, check into CFGDIR
+(jvb) add ssh key for rev_tun 
+
+## notes, usefull commands 
 
 ```
-sudo iwlist wlan0 scan | grep jvb
+sudo iwlist wlan0 scan | grep name
 ifconfig wlan0
 wpa_cli -i wlan0 reconfigure
 ```
 
-double lines at top of wpa_config?
+Apps:
+1. default mode:
+  1.a eth usb gadget with (win shared) internet (dhcp client, Bonjur deskovery) 
+  1.b wifi internet (home/mble)
+  1.c internet-up, rev_tun access 
+2. wifi internet, usb-eth/usb-wlan2 lan (dhcp server) 
+3. public HotSpot
 
 
