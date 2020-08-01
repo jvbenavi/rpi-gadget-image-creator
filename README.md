@@ -104,6 +104,26 @@ adafruit internet
 	auto usb0
 	allow-hotplug usb0
 	iface usb0 inet manual
+adafruite options
+    sudo systemctl disable dhcpcd
+
+	auto lo
+	iface lo inet loopback
+
+	auto usb0
+	allow-hotplug usb0
+	iface usb0 inet static
+	address 10.77.77.77
+	netmask 255.255.255.0
+
+	allow-hotplug wlan0
+	iface wlan0 inet dhcp
+	wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+	sudo nano /etc/dnsmasq.conf (add:) 
+		dhcp-range=10.77.77.78,10.77.77.99,12h
+		dhcp-option=3
+		dhcp-option=6
 
 etc/wpa_supplicant/wpa_supplicant.conf
 
