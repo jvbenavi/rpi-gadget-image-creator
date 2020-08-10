@@ -41,9 +41,7 @@ You can find instructions on the Raspberry Pi website [here](https://www.raspber
 
 Look at repackaging everything into an extention to DockerPi so the whole thing runs in the container.
 
-(jvb) wpa_config convert to hash, check into CFGDIR
-
-(jvb) add ssh key for rev_tun 
+(jvb) update rev_tun with good host and ssh key 
 
 ## notes, usefull commands 
 
@@ -54,15 +52,20 @@ wpa_cli -i wlan0 reconfigure
 
 ifdown usb0 
 ifup usb0
+
+docker run -i --rm -p 52022:22 -v /home/jvbenavi/rpiz/rpi-gadget-image-creator/2020-05-27-lite-01.img:/sdcard/filesystem.img lukechilds/dockerpi:vm
+
 ```
 
 Apps:
 
-1. default mode:  
+1. default mode: get access 
   1.a eth usb gadget with (win shared) internet (dhcp client, Bonjur deskovery)  
+    maybe secondary/delayed static ip ... 
   1.b wifi internet (home/mble)  
   1.c internet-up, rev_tun access   
 2. wifi internet, usb-eth/usb-wlan2 lan (dhcp server)   
+  - same default mode capable, just switch gadget for usb eth cable 
 3. public HotSpot, home AP 
 
 LICENSE  README.md  create-image  create-image.sh  etc  lib  usr
@@ -131,8 +134,19 @@ etc/network/if-up.d/reverse_tun
 
 usr/local/sbin/argon1.sh
 usr/local/lowendscript
+
 usr/local/sbin/usb-gadget.sh
 lib/systemd/system/usbgadget.service
 
+[1] https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget/ip-addressing-options
+https://www.raspberrypi.org/documentation/configuration/tcpip/README.md
+https://peppe8o.com/assign-static-ip-and-manage-networking-in-raspberry-pi-os-lite/
+https://wiki.archlinux.org/index.php/dhcpcd
+
+https://www.instructables.com/id/Raspberry-Pi-Ethernet-to-Wifi-Bridge/
+https://willhaley.com/blog/raspberry-pi-wifi-ethernet-bridge/
+https://www.elementzonline.com/blog/sharing-or-bridging-internet-to-ethernet-from-wifi-raspberry-pI
+
+https://www.raspberrypi.org/documentation/configuration/wireless/
 
 

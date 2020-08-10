@@ -10,7 +10,7 @@ then
 	cp $CFGDIR/wpa_supplicant.conf etc/wpa_supplicant/wpa_supplicant.conf
 fi
 
-#cp 2020-05-27-raspios-buster-lite-armhf.img 2020-05-27-lite-01.img
+cp 2020-05-27-raspios-buster-lite-armhf.img 2020-05-27-lite-01.img
 #./create-image 2020-05-27-lite-01.img
 
 if [ -d $CFGDIR ]
